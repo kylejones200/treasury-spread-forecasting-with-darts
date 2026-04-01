@@ -1,0 +1,6 @@
+pandas
+matplotlib
+pandas_datareader
+darts
+pyyaml
+pytest
