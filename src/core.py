@@ -56,7 +56,7 @@ def forecast_to_dataframe(forecast: TimeSeries) -> pd.DataFrame:
 
 def plot_forecast(series: TimeSeries, forecast: TimeSeries, output_path: Path,
                  title: str, metrics: Dict[str, float] = None, window: int = 365):
- """Plot forecast """
+    """Plot forecast """
     fig, ax = plt.subplots(figsize=(12, 6))
     
     display_window = min(window, len(series))
