@@ -57,22 +57,23 @@ def forecast_to_dataframe(forecast: TimeSeries) -> pd.DataFrame:
 def plot_forecast(series: TimeSeries, forecast: TimeSeries, output_path: Path,
                  title: str, metrics: Dict[str, float] = None, window: int = 365):
     """Plot forecast """
-    fig, ax = plt.subplots(figsize=(12, 6))
+                 if plot:
+        fig, ax = plt.subplots(figsize=(12, 6))
     
-    display_window = min(window, len(series))
-    series_display = series[-display_window:]
+        display_window = min(window, len(series))
+        series_display = series[-display_window:]
     
-    series_display.plot(ax=ax, label="Actual", color="#4A90A4", linewidth=1.2)
-    forecast.plot(ax=ax, label="Forecast", color="#D4A574", linewidth=1.2)
+        series_display.plot(ax=ax, label="Actual", color="#4A90A4", linewidth=1.2)
+        forecast.plot(ax=ax, label="Forecast", color="#D4A574", linewidth=1.2)
     
-    title_text = title
-    if metrics:
-        title_text += f": MAPE = {metrics['mape']:.2f}%, MSE = {metrics['mse']:.4f}"
+        title_text = title
+        if metrics:
+            title_text += f": MAPE = {metrics['mape']:.2f}%, MSE = {metrics['mse']:.4f}"
     
-    ax.set_xlabel("Date")
-    ax.set_ylabel("Spread")
-    ax.legend(loc='best')
+        ax.set_xlabel("Date")
+        ax.set_ylabel("Spread")
+        ax.legend(loc='best')
     
-    plt.savefig(output_path, dpi=100, bbox_inches="tight")
-    plt.close()
+        plt.savefig(output_path, dpi=100, bbox_inches="tight")
+        plt.close()
 

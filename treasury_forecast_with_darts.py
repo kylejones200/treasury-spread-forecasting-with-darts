@@ -33,21 +33,22 @@ def build_and_forecast(series, forecast_horizon=30, num_samples=1000):
     forecast = model.predict(n=forecast_horizon, num_samples=num_samples)
     return forecast
 
-def visualize_forecast(series, forecast, title, filename):
+def visualize_forecast(series, forecast, title, filename, plot: bool = False):
     """Plot and save forecast visualization."""
     os.makedirs(os.path.dirname(filename), exist_ok=True)
     window = min(365, len(series))
-    plt.figure(figsize=(12, 6))
-    series[-window:].plot(label="Actual", color='blue')
-    forecast.plot(label="Forecast", color='red')
-    plt.title(title)
-    plt.xlabel("Date")
-    plt.ylabel("Spread")
-    plt.legend()
-    plt.tight_layout()
-    plt.grid(False)
-    plt.savefig(filename)
-    plt.show()
+    if plot:
+        plt.figure(figsize=(12, 6))
+        series[-window:].plot(label="Actual", color='blue')
+        forecast.plot(label="Forecast", color='red')
+        plt.title(title)
+        plt.xlabel("Date")
+        plt.ylabel("Spread")
+        plt.legend()
+        plt.tight_layout()
+        plt.grid(False)
+        plt.savefig(filename)
+        plt.show()
 
 def print_forecast_summary(forecast):
     """Convert forecast to DataFrame and print head."""
