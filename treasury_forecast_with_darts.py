@@ -35,7 +35,7 @@ def build_and_forecast(series, forecast_horizon=30, num_samples=1000):
 
 def visualize_forecast(series, forecast, title, filename, plot: bool = False):
     """Plot and save forecast visualization."""
-    os.makedirs(os.path.dirname(filename), exist_ok=True)
+    os.makedirs(os.path.dirname(filename, exist_ok=True), exist_ok=True)
     window = min(365, len(series))
     if plot:
         plt.figure(figsize=(12, 6))
