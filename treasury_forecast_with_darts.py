@@ -1,27 +1,32 @@
-import os
 import logging
+import os
+from datetime import datetime
+
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-from datetime import datetime
-from darts import TimeSeries
-from darts.models import AutoARIMA
-from darts.metrics import mape, mse
 import pandas_datareader.data as web
+from darts import TimeSeries
+from darts.metrics import mape, mse
+from darts.models import AutoARIMA
 
 # Setup logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 
-def fetch_fred_data(series_id, start_date='2000-01-01', end_date=None):
+
+def fetch_fred_data(series_id, start_date="2000-01-01", end_date=None):
     """Fetch FRED data using pandas_datareader and return as Darts TimeSeries."""
     if end_date is None:
-        end_date = datetime.now().strftime('%Y-%m-%d')
+        end_date = datetime.now().strftime("%Y-%m-%d")
 
-    df = web.DataReader(series_id, 'fred', start=start_date, end=end_date)
-    df = df.rename(columns={series_id: 'value'})
-    df['value'] = pd.to_numeric(df['value'], errors='coerce').ffill().dropna()
+    df = web.DataReader(series_id, "fred", start=start_date, end=end_date)
+    df = df.rename(columns={series_id: "value"})
+    df["value"] = pd.to_numeric(df["value"], errors="coerce").ffill().dropna()
     df = df.sort_index()
-    return TimeSeries.from_dataframe(df, value_cols='value')
+    return TimeSeries.from_dataframe(df, value_cols="value")
+
 
 def build_and_forecast(series, forecast_horizon=30, num_samples=1000):
     """Fit AutoARIMA model and return forecast."""
@@ -32,14 +37,15 @@ def build_and_forecast(series, forecast_horizon=30, num_samples=1000):
     forecast = model.predict(n=forecast_horizon, num_samples=num_samples)
     return forecast
 
+
 def visualize_forecast(series, forecast, title, filename, plot: bool = False):
     """Plot and save forecast visualization."""
     os.makedirs(os.path.dirname(filename, exist_ok=True), exist_ok=True)
     window = min(365, len(series))
     if plot:
         plt.figure(figsize=(12, 6))
-        series[-window:].plot(label="Actual", color='blue')
-        forecast.plot(label="Forecast", color='red')
+        series[-window:].plot(label="Actual", color="blue")
+        forecast.plot(label="Forecast", color="red")
         plt.title(title)
         plt.xlabel("Date")
         plt.ylabel("Spread")
@@ -49,14 +55,15 @@ def visualize_forecast(series, forecast, title, filename, plot: bool = False):
         plt.savefig(filename)
         plt.show()
 
+
 def print_forecast_summary(forecast):
     """Convert forecast to DataFrame and print head."""
-    forecast_df = pd.DataFrame({
-        'date': forecast.time_index,
-        'forecast': forecast.values().flatten()
-    })
+    forecast_df = pd.DataFrame(
+        {"date": forecast.time_index, "forecast": forecast.values().flatten()}
+    )
     logging.info(forecast_df.head())
     return forecast_df
+
 
 def evaluate_forecast(actual, forecast):
     """Compute and print evaluation metrics."""
@@ -66,6 +73,7 @@ def evaluate_forecast(actual, forecast):
     logging.info(f"MAPE: {mape_score:.2f}%")
     logging.info(f"MSE:  {mse_score:.4f}")
     return mape_score, mse_score
+
 
 if __name__ == "__main__":
     np.random.seed(42)
@@ -81,9 +89,12 @@ if __name__ == "__main__":
         forecast = build_and_forecast(series, forecast_horizon)
 
         logging.info("Visualizing forecast...")
-        visualize_forecast(series, forecast,
-                           "10Y Minus 2Y Treasury Spread Forecast (AutoARIMA)",
-                           output_file)
+        visualize_forecast(
+            series,
+            forecast,
+            "10Y Minus 2Y Treasury Spread Forecast (AutoARIMA)",
+            output_file,
+        )
 
         logging.info("Forecast summary:")
         forecast_df = print_forecast_summary(forecast)
