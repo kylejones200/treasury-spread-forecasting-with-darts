@@ -62,7 +62,7 @@ def evaluate_forecast(actual, forecast):
     """Compute and print evaluation metrics."""
     mape_score = mape(actual, forecast)
     mse_score = mse(actual, forecast)
-    logging.info(f"\nEvaluation Metrics:")
+    logging.info("\nEvaluation Metrics:")
     logging.info(f"MAPE: {mape_score:.2f}%")
     logging.info(f"MSE:  {mse_score:.4f}")
     return mape_score, mse_score
