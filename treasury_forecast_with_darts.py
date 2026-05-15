@@ -11,7 +11,6 @@ import pandas_datareader.data as web
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
-np.random.seed(42)
 
 def fetch_fred_data(series_id, start_date='2000-01-01', end_date=None):
     """Fetch FRED data using pandas_datareader and return as Darts TimeSeries."""
@@ -69,6 +68,7 @@ def evaluate_forecast(actual, forecast):
     return mape_score, mse_score
 
 if __name__ == "__main__":
+    np.random.seed(42)
     series_id = "T10Y2Y"
     forecast_horizon = 30
     output_file = "outputs/ARIMA_Forecast.png"
