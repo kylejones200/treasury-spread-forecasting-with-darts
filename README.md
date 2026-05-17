@@ -31,3 +31,11 @@ Edit `config.yaml` to customize:
 - Requires internet connection to fetch FRED data via pandas_datareader.
 - The model automatically selects ARIMA parameters using AutoARIMA.
 - Forecast evaluation uses the last N points of the series as hold-out data.
+
+## Disclaimer
+
+Educational/demo code only. Not financial, safety, or engineering advice. Use at your own risk. Verify results independently before any production or operational use.
+
+## License
+
+MIT — see [LICENSE](LICENSE).
