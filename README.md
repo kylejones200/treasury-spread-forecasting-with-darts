@@ -2,6 +2,10 @@
 
 This project demonstrates AutoARIMA forecasting for U.S. Treasury yield spread using the Darts library.
 
+## Business context
+
+The spread between 10-year and 2-year Treasury yields is one of the most closely watched economic indicators. When short-term rates exceed long-term rates, it has historically preceded recessions with remarkable consistency. Where the spread goes next is a legitimate question for economists, portfolio managers, and risk teams.
+
 ## Project Structure
 
 ```
