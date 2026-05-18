@@ -3,6 +3,7 @@ name = "treasury-spread-forecasting-with-darts"
 version = "0.1.0"
 requires-python = ">=3.12"
 dependencies = [
+    "pydantic>=2.10.0",
     "darts>=0.44.1",
     "matplotlib>=3.10.9",
     "pandas>=3.0.3",
@@ -10,3 +11,7 @@ dependencies = [
     "pytest>=9.0.3",
     "pyyaml>=6.0.3",
 ]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

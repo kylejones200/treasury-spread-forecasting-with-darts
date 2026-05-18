@@ -80,14 +80,11 @@ if __name__ == "__main__":
     series_id = "T10Y2Y"
     forecast_horizon = 30
     output_file = "outputs/ARIMA_Forecast.png"
-
     try:
         logging.info("Fetching FRED data...")
         series = fetch_fred_data(series_id)
-
         logging.info("Fitting model and generating forecast...")
         forecast = build_and_forecast(series, forecast_horizon)
-
         logging.info("Visualizing forecast...")
         visualize_forecast(
             series,
@@ -95,10 +92,8 @@ if __name__ == "__main__":
             "10Y Minus 2Y Treasury Spread Forecast (AutoARIMA)",
             output_file,
         )
-
         logging.info("Forecast summary:")
         forecast_df = print_forecast_summary(forecast)
-
         # Evaluate
         actual = series[-forecast_horizon:]
         logging.info("Evaluating forecast...")

@@ -22,7 +22,7 @@ logging.basicConfig(
 )
 
 
-def load_config(config_path: Path = None) -> dict:
+def load_config(config_path: Path | None = None) -> dict:
     """Load configuration from YAML file."""
     if config_path is None:
         config_path = Path(__file__).parent / "config.yaml"
@@ -44,7 +44,6 @@ def main():
         "--output-dir", type=Path, default=None, help="Output directory for plots"
     )
     args = parser.parse_args()
-
     config = load_config(args.config)
     output_dir = (
         Path(args.output_dir)
@@ -52,21 +51,17 @@ def main():
         else Path(config["output"]["figures_dir"])
     )
     output_dir.mkdir(exist_ok=True)
-
     series_id = args.series_id or config["data"]["series_id"]
     forecast_horizon = args.forecast_horizon or config["model"]["forecast_horizon"]
-
     try:
         logging.info("Fetching FRED data...")
         series = fetch_fred_data(
             series_id, config["data"]["start_date"], config["data"]["end_date"]
         )
-
         logging.info("Fitting model and generating forecast...")
         model, forecast = fit_auto_arima(
             series, forecast_horizon, config["model"]["num_samples"]
         )
-
         if config["analysis"]["print_summary"]:
             logging.info("Forecast summary:")
             forecast_df = forecast_to_dataframe(forecast)
@@ -90,7 +85,6 @@ def main():
             metrics,
             config["output"]["display_window"],
         )
-
         logging.info(f"Analysis complete. Figures saved to {output_dir}")
 
     except Exception as e:
