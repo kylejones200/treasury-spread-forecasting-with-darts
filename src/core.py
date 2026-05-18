@@ -38,7 +38,7 @@ def forecast_to_dataframe(forecast: TimeSeries) -> pd.DataFrame:
     """Convert forecast to DataFrame."""
     return pd.DataFrame({'date': forecast.time_index, 'forecast': forecast.values().flatten()})
 
-def plot_forecast(series: TimeSeries, forecast: TimeSeries, output_path: Path, title: str, metrics: Dict[str, float] | None=None, window: int=365, plot: bool = False):
+def plot_forecast(series: TimeSeries, forecast: TimeSeries, output_path: Path, title: str, metrics: Dict[str, float] | None=None, window: int=365, plot: bool=False):
     """Plot forecast"""
     if not plot:
         return
